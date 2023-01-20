@@ -211,6 +211,7 @@ class _HomeState extends State<Home> {
 
   Widget _bodyWidget() {
     return ListView.separated(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       itemBuilder: (BuildContext _context, int index) {
         final imagePath = datas[index]["image"]!;
         final title = datas[index]["title"]!;
@@ -219,6 +220,7 @@ class _HomeState extends State<Home> {
         final likes = datas[index]["likes"]!;
 
         return Container(
+          padding: const EdgeInsets.symmetric(vertical: 10),
           child: Row(
             children: [
               ClipRRect(
@@ -229,23 +231,32 @@ class _HomeState extends State<Home> {
                   height: 100,
                 ),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    Text(title),
-                    Text(location),
-                    Text(price),
-                    Row(
-                      children: [
-                        SvgPicture.asset(
-                          "assets/svg/heart_off.svg",
-                          width: 13,
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: 20),
+                  height: 100,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title),
+                      Text(location),
+                      Text(price),
+                      Expanded(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/svg/heart_off.svg",
+                              width: 13,
+                            ),
+                            SizedBox(width: 5),
+                            Text(likes),
+                          ],
                         ),
-                        SizedBox(width: 5),
-                        Text(likes),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
