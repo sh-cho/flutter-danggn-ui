@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_danggn_ui/util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Home extends StatefulWidget {
@@ -238,9 +239,20 @@ class _HomeState extends State<Home> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title),
-                      Text(location),
-                      Text(price),
+                      Text(
+                        title,
+                        style: TextStyle(fontSize: 15),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                        location,
+                        style: TextStyle(
+                            fontSize: 12, color: Colors.black.withOpacity(0.4)),
+                      ),
+                      SizedBox(height: 5),
+                      Text(calcStringToWon(price),
+                          style: TextStyle(fontWeight: FontWeight.w500)),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
