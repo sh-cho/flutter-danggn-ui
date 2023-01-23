@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_danggn_ui/page/detail.dart';
 import 'package:flutter_danggn_ui/repository/contents_repository.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -95,7 +96,6 @@ class _HomeState extends State<Home> {
         }
 
         List<Map<String, String>> datas = snapshot.data;
-        print(datas);
         if (datas.isEmpty) {
           // why??
           return Center(child: Text("데이터 없음 2 :("));
@@ -109,60 +109,73 @@ class _HomeState extends State<Home> {
             final location = datas[index]["location"]!;
             final price = datas[index]["price"]!;
             final likes = datas[index]["likes"]!;
+            final cid = datas[index]["cid"]!;
 
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Image.asset(
-                      imagePath,
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 20),
-                      height: 100,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            title,
-                            style: TextStyle(fontSize: 15),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            location,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.black.withOpacity(0.4)),
-                          ),
-                          SizedBox(height: 5),
-                          Text(calcStringToWon(price),
-                              style: TextStyle(fontWeight: FontWeight.w500)),
-                          Expanded(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                SvgPicture.asset(
-                                  "assets/svg/heart_off.svg",
-                                  width: 13,
-                                ),
-                                SizedBox(width: 5),
-                                Text(likes),
-                              ],
-                            ),
-                          ),
-                        ],
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return DetailContentView(datas[index]);
+                  },
+                ));
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      child: Hero(
+                        tag: cid,
+                        child: Image.asset(
+                          imagePath,
+                          width: 100,
+                          height: 100,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Container(
+                        padding: EdgeInsets.only(left: 20),
+                        height: 100,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: TextStyle(fontSize: 15),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              location,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.black.withOpacity(0.4)),
+                            ),
+                            SizedBox(height: 5),
+                            Text(calcStringToWon(price),
+                                style: TextStyle(fontWeight: FontWeight.w500)),
+                            Expanded(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/svg/heart_off.svg",
+                                    width: 13,
+                                  ),
+                                  SizedBox(width: 5),
+                                  Text(likes),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
