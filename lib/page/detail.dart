@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_danggn_ui/component/manner_temperature.dart';
 
 class DetailContentView extends StatefulWidget {
   final Map<String, String> data;
@@ -39,7 +40,7 @@ class _DetailContentViewState extends State<DetailContentView> {
     );
   }
 
-  Widget _bodyWidget() {
+  Stack _makeSlider() {
     return Stack(
       children: [
         Hero(
@@ -87,6 +88,44 @@ class _DetailContentViewState extends State<DetailContentView> {
             }).toList(),
           ),
         ),
+      ],
+    );
+  }
+
+  Widget _sellerSimpleInfo() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundImage: Image.asset("assets/images/user.png").image,
+          ),
+          SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "판매자1",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              Text("제주시 도담동"),
+            ],
+          ),
+          Expanded(child: MannerTemperature(40.5)),
+        ],
+      ),
+    );
+  }
+
+  Widget _bodyWidget() {
+    return Column(
+      children: [
+        _makeSlider(),
+        _sellerSimpleInfo(),
       ],
     );
   }
