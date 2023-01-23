@@ -3,6 +3,10 @@ import 'package:intl/intl.dart';
 final wonFormat = NumberFormat("#,###", "ko_KR");
 
 String calcStringToWon(String priceString) {
+  if (priceString == "무료나눔") {
+    return priceString;
+  }
+
   return "${wonFormat.format(int.parse(priceString))}원";
 }
 
