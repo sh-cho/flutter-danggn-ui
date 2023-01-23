@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_danggn_ui/util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../util.dart';
+
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  List<Map<String, String>> datas = [
+  final List<Map<String, String>> datas = [
     {
       "cid": "1",
       "image": "assets/images/ara-1.jpg",
@@ -172,15 +175,7 @@ class _HomeState extends State<Home> {
       "likes": "8"
     },
   ];
-  late int _currentPageIndex;
 
-  @override
-  void initState() {
-    _currentPageIndex = 0;
-    super.initState();
-  }
-
-  ///
   AppBar _buildAppBar() {
     return AppBar(
       title: GestureDetector(
@@ -284,45 +279,11 @@ class _HomeState extends State<Home> {
     );
   }
 
-  BottomNavigationBarItem _bottomNavigationBarItem(
-      String iconName, String label) {
-    return BottomNavigationBarItem(
-      icon: Padding(
-        padding: const EdgeInsets.only(bottom: 5),
-        child: SvgPicture.asset("assets/svg/${iconName}_off.svg", width: 22),
-      ),
-      label: label,
-    );
-  }
-
-  BottomNavigationBar _bottomNavigationBar() {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      onTap: (int index) {
-        setState(() {
-          _currentPageIndex = index;
-        });
-      },
-      currentIndex: _currentPageIndex,
-      selectedItemColor: Colors.black,
-      selectedFontSize: 12,
-      // selectedLabelStyle: TextStyle(color: Colors.black),
-      items: [
-        _bottomNavigationBarItem("home", "홈"),
-        _bottomNavigationBarItem("notes", "동네생활"),
-        _bottomNavigationBarItem("location", "내 근처"),
-        _bottomNavigationBarItem("chat", "채팅"),
-        _bottomNavigationBarItem("user", "나의 당근"),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
       body: _bodyWidget(),
-      bottomNavigationBar: _bottomNavigationBar(),
     );
   }
 }
