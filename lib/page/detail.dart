@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dedent/dedent.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +49,7 @@ class _DetailContentViewState extends State<DetailContentView>
         .animate(_animationController);
     _scrollController.addListener(() {
       setState(() {
-        _scrollPosToAlpha = min(_scrollController.offset, 255.0);
+        _scrollPosToAlpha = _scrollController.offset.clamp(0.0, 255.0);
         _animationController.value = _scrollPosToAlpha / 255;
       });
     });
