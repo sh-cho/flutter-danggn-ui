@@ -39,6 +39,7 @@ dependencies:
   flutter_svg: ^1.1.6
   intl: ^0.18.0
   carousel_slider: ^4.2.1
+  dedent: ^1.0.2
 
 dev_dependencies:
   flutter_test:
