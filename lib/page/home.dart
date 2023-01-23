@@ -175,6 +175,12 @@ class _HomeState extends State<Home> {
       "likes": "8"
     },
   ];
+  String currentLocation = "ara";
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   AppBar _buildAppBar() {
     return AppBar(
@@ -185,11 +191,32 @@ class _HomeState extends State<Home> {
         onLongPress: () {
           print("long press");
         },
-        child: Row(
-          children: [
-            Text("아라동"),
-            Icon(Icons.arrow_drop_down),
-          ],
+        child: PopupMenuButton<String>(
+          offset: Offset(0, 20),
+          shape: ShapeBorder.lerp(
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+            1,
+          ),
+          onSelected: (String selected) {
+            print(selected);
+            setState(() {
+              currentLocation = selected;
+            });
+          },
+          itemBuilder: (BuildContext context) {
+            return [
+              PopupMenuItem(value: "ara", child: Text("아라동")),
+              PopupMenuItem(value: "ora", child: Text("오라동")),
+              PopupMenuItem(value: "donam", child: Text("도남동")),
+            ];
+          },
+          child: Row(
+            children: [
+              Text(LocationType.getByCode(currentLocation).displayName),
+              Icon(Icons.arrow_drop_down),
+            ],
+          ),
         ),
       ),
       elevation: 1,
