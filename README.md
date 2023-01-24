@@ -9,10 +9,11 @@ https://user-images.githubusercontent.com/11611397/214232065-3655157d-e33f-40de-
 
 > **Note**
 >
-> 공부용으로 대충 짰으니 코드는 참고하지 마세요
+> 공부용으로 대충 짰으니 코드는 참고하지 마세요.
+> 
+> 위젯 한번씩 써보는 것에 초점을 맞췄습니다.
 
 ## Used widgets
-
 - SnackBar
 - Hero
 - GestureDetector
