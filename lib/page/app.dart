@@ -50,6 +50,10 @@ class _AppState extends State<App> {
         padding: const EdgeInsets.only(bottom: 5),
         child: SvgPicture.asset("assets/svg/${iconName}_off.svg", width: 22),
       ),
+      activeIcon: Padding(
+        padding: const EdgeInsets.only(bottom: 5),
+        child: SvgPicture.asset("assets/svg/${iconName}_on.svg", width: 22),
+      ),
       label: label,
     );
   }
