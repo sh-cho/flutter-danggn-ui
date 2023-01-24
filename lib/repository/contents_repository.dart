@@ -184,6 +184,28 @@ class ContentsRepository extends LocalStorageRepository {
     await add(FAVORITES_KEY, content["cid"]!);
   }
 
+  Future<List<Map<String, String>>> loadFavoriteContents() async {
+    // API Call mock
+    await Future.delayed(Duration(milliseconds: 300));
+
+    /// 대충짬.. ㅠ
+    String s = await get("FAVORITES");
+    List<dynamic> ll = jsonDecode(s);
+    List<Map<String, String>> favs = [];
+    for (var location in ["ara", "ora"]) {
+      for (var cid in ll) {
+        List<Map<String, String>> d = datas[location];
+        for (var dd in d) {
+          if (dd["cid"] == cid.toString()) {
+            favs.add(dd);
+          }
+        }
+      }
+    }
+    print(favs);
+    return favs;
+  }
+
   Future<void> removeFavorite(Map<String, String> content) async {
     await remove(FAVORITES_KEY, content["cid"]!);
   }

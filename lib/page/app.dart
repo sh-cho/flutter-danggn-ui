@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_danggn_ui/page/favorite.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'home.dart';
@@ -36,7 +37,7 @@ class _AppState extends State<App> {
         return Container();
 
       case 4:
-        return Container();
+        return MyDanggn();
 
       default: //err
         return Container();

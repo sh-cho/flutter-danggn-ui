@@ -1,95 +1,43 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_danggn_ui/page/detail.dart';
 import 'package:flutter_danggn_ui/repository/contents_repository.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../util.dart';
+import 'detail.dart';
 
-class Home extends StatefulWidget {
-  const Home({
-    Key? key,
-  }) : super(key: key);
+class MyDanggn extends StatefulWidget {
+  const MyDanggn({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<MyDanggn> createState() => _MyDanggnState();
 }
 
-class _HomeState extends State<Home> {
-  String currentLocation = "ara";
-  final ContentsRepository contentsRepository = ContentsRepository();
+class _MyDanggnState extends State<MyDanggn> {
+  late final ContentsRepository _contentsRepository;
 
   @override
   void initState() {
     super.initState();
+
+    _contentsRepository = ContentsRepository();
   }
 
-  AppBar _buildAppBar() {
+  AppBar _appBar() {
     return AppBar(
-      title: GestureDetector(
-        onTap: () {
-          print("click");
-        },
-        onLongPress: () {
-          print("long press");
-        },
-        child: PopupMenuButton<String>(
-          offset: Offset(0, 20),
-          shape: ShapeBorder.lerp(
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-            1,
-          ),
-          onSelected: (String selected) {
-            print(selected);
-            setState(() {
-              currentLocation = selected;
-            });
-          },
-          itemBuilder: (BuildContext context) {
-            return [
-              PopupMenuItem(value: "ara", child: Text("아라동")),
-              PopupMenuItem(value: "ora", child: Text("오라동")),
-              PopupMenuItem(value: "donam", child: Text("도남동")),
-            ];
-          },
-          child: Row(
-            children: [
-              Text(LocationType.getByCode(currentLocation).displayName),
-              Icon(Icons.arrow_drop_down),
-            ],
-          ),
-        ),
+      title: Text(
+        "관심목록",
+        style: TextStyle(fontSize: 15),
       ),
-      elevation: 1,
-      actions: [
-        IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-        IconButton(onPressed: () {}, icon: Icon(Icons.tune)),
-        IconButton(
-          onPressed: () {},
-          icon: SvgPicture.asset(
-            "assets/svg/bell.svg",
-            width: 22,
-          ),
-        ),
-      ],
     );
   }
 
-  Future<List<Map<String, String>>> _loadContents() {
-    return contentsRepository.loadContentsFromLocation(currentLocation);
-  }
+  // Future<List<Map<String, String>>> _loadFavoriteContents() async {
+  //   /// 대충짬
+  // }
 
-  Future<Set<int>> _loadFavorites() async {
-    String s = await contentsRepository.get("FAVORITES");
-    List<dynamic> ll = jsonDecode(s);
-    return Set<int>.from(ll);
-  }
-
-  Widget _bodyWidget() {
+  Widget _body() {
     return FutureBuilder(
-      future: Future.wait([_loadContents(), _loadFavorites()]),
+      future: _contentsRepository.loadFavoriteContents(),
       builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
@@ -103,13 +51,11 @@ class _HomeState extends State<Home> {
           return Center(child: Text("데이터 없음 :("));
         }
 
-        List<Map<String, String>> datas = snapshot.data[0];
+        List<Map<String, String>> datas = snapshot.data;
         if (datas.isEmpty) {
           // why??
           return Center(child: Text("데이터 없음 2 :("));
         }
-
-        Set<int> favorites = snapshot.data[1];
 
         return ListView.separated(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -172,7 +118,7 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   SvgPicture.asset(
-                                    "assets/svg/heart_${favorites.contains(int.parse(cid)) ? 'on' : 'off'}.svg",
+                                    "assets/svg/heart_on.svg",
                                     width: 13,
                                     color: Color(0xfff08f4f),
                                   ),
@@ -193,7 +139,7 @@ class _HomeState extends State<Home> {
           separatorBuilder: (BuildContext _context, int index) {
             return Container(height: 1, color: Colors.black.withOpacity(0.4));
           },
-          itemCount: 10,
+          itemCount: datas.length,
         );
       },
     );
@@ -202,8 +148,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
-      body: _bodyWidget(),
+      appBar: _appBar(),
+      body: _body(),
     );
   }
 }
