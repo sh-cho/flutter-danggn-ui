@@ -5,6 +5,8 @@ import 'package:flutter_danggn_ui/component/manner_temperature.dart';
 import 'package:flutter_danggn_ui/util.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../repository/contents_repository.dart';
+
 class DetailContentView extends StatefulWidget {
   final Map<String, String> data;
 
@@ -18,10 +20,13 @@ class _DetailContentViewState extends State<DetailContentView>
     with SingleTickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final ContentsRepository contentsRepository = ContentsRepository();
 
-  late List<String> imgList;
   int _current = 0;
   double _scrollPosToAlpha = 0;
+
+  /// Late inits
+  late List<String> imgList;
   bool _isFavorite = false;
 
   /// animation ?
@@ -47,6 +52,8 @@ class _DetailContentViewState extends State<DetailContentView>
     likes = widget.data["likes"]!;
     cid = widget.data["cid"]!;
 
+    asyncInitState();
+
     _animationController = AnimationController(vsync: this);
     _colorTween = ColorTween(begin: Colors.white, end: Colors.black)
         .animate(_animationController);
@@ -55,6 +62,13 @@ class _DetailContentViewState extends State<DetailContentView>
         _scrollPosToAlpha = _scrollController.offset.clamp(0.0, 255.0);
         _animationController.value = _scrollPosToAlpha / 255;
       });
+    });
+  }
+
+  void asyncInitState() async {
+    bool fav = await contentsRepository.isFavorite(cid);
+    setState(() {
+      _isFavorite = fav;
     });
   }
 
@@ -339,7 +353,7 @@ class _DetailContentViewState extends State<DetailContentView>
         children: [
           GestureDetector(
             onTap: () {
-              // print("하트 클릭");
+              contentsRepository.addFavorite(widget.data);
               setState(() {
                 _isFavorite = !_isFavorite;
               });

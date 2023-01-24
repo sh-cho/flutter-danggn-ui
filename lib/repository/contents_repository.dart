@@ -1,4 +1,9 @@
-class ContentsRepository {
+import 'dart:convert';
+
+import 'package:flutter_danggn_ui/repository/local_storage_repository.dart';
+
+class ContentsRepository extends LocalStorageRepository {
+  // final String FAVORITES_KEY = "FAVORITES";
   final Map<String, dynamic> datas = {
     "ara": [
       {
@@ -172,5 +177,13 @@ class ContentsRepository {
     await Future.delayed(Duration(milliseconds: 1000));
 
     return datas[location] ?? [];
+  }
+
+  void addFavorite(Map<String, String> content) {
+    set(content["cid"]!, jsonEncode(content));
+  }
+
+  Future<bool> isFavorite(String cid) async {
+    return await get(cid) != "";
   }
 }
