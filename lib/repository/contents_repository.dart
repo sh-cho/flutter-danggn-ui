@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_danggn_ui/repository/local_storage_repository.dart';
 
 class ContentsRepository extends LocalStorageRepository {
@@ -187,10 +188,17 @@ class ContentsRepository extends LocalStorageRepository {
   Future<List<Map<String, String>>> loadFavoriteContents() async {
     // API Call mock
     await Future.delayed(Duration(milliseconds: 300));
+    debugPrint("bbb");
 
     /// 대충짬.. ㅠ
     String s = await get("FAVORITES");
+    if (s.isEmpty) {
+      return [];
+    }
+
     List<dynamic> ll = jsonDecode(s);
+    debugPrint("aaaaa");
+
     List<Map<String, String>> favs = [];
     for (var location in ["ara", "ora"]) {
       for (var cid in ll) {
@@ -214,7 +222,7 @@ class ContentsRepository extends LocalStorageRepository {
     return await get(cid) != "";
   }
 
-// Future<void> debugClean() async {
-//   await storage.deleteAll();
-// }
+  Future<void> debugClean() async {
+    await storage.deleteAll();
+  }
 }

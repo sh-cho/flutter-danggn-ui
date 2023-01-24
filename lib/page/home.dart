@@ -23,6 +23,12 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+
+    asyncInitState();
+  }
+
+  void asyncInitState() async {
+    // await contentsRepository.debugClean();
   }
 
   AppBar _buildAppBar() {
@@ -83,6 +89,9 @@ class _HomeState extends State<Home> {
 
   Future<Set<int>> _loadFavorites() async {
     String s = await contentsRepository.get("FAVORITES");
+    if (s.isEmpty) {
+      return {};
+    }
     List<dynamic> ll = jsonDecode(s);
     return Set<int>.from(ll);
   }

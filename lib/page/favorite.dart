@@ -31,10 +31,6 @@ class _MyDanggnState extends State<MyDanggn> {
     );
   }
 
-  // Future<List<Map<String, String>>> _loadFavoriteContents() async {
-  //   /// 대충짬
-  // }
-
   Widget _body() {
     return FutureBuilder(
       future: _contentsRepository.loadFavoriteContents(),

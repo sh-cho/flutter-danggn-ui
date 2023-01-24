@@ -7,6 +7,8 @@ class LocalStorageRepository {
   final storage = const FlutterSecureStorage();
 
   Future<String> get(String key) async {
+    debugPrint("--- get $key");
+
     try {
       return await storage.read(key: key) ?? "";
     } catch (err) {
@@ -16,6 +18,8 @@ class LocalStorageRepository {
   }
 
   Future<void> set(String key, String value) async {
+    debugPrint("--- set $key: $value");
+
     try {
       await storage.write(key: key, value: value);
     } catch (err) {
@@ -25,6 +29,8 @@ class LocalStorageRepository {
 
   /// 특정 set(list)에 value 추가
   Future<void> add(String setKey, String value) async {
+    debugPrint("--- add $setKey: $value");
+
     try {
       String setStr = await get(setKey);
       List<dynamic> decoded = (setStr.isEmpty ? [] : jsonDecode(setStr));
@@ -36,6 +42,8 @@ class LocalStorageRepository {
   }
 
   Future<void> remove(String setKey, String value) async {
+    debugPrint("--- remove $setKey $value");
+
     try {
       String setStr = await get(setKey);
       if (setStr.isEmpty) {
