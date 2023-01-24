@@ -40,6 +40,7 @@ dependencies:
   intl: ^0.18.0
   carousel_slider: ^4.2.1
   dedent: ^1.0.2
+  flutter_secure_storage: ^7.0.1
 
 dev_dependencies:
   flutter_test:
