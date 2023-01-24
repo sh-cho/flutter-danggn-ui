@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -15,10 +17,36 @@ class LocalStorageRepository {
 
   Future<void> set(String key, String value) async {
     try {
-      return await storage.write(key: key, value: value);
+      await storage.write(key: key, value: value);
     } catch (err) {
       debugPrint("set failed / err: $err");
-      return;
+    }
+  }
+
+  /// 특정 set(list)에 value 추가
+  Future<void> add(String setKey, String value) async {
+    try {
+      String setStr = await get(setKey);
+      List<dynamic> decoded = (setStr.isEmpty ? [] : jsonDecode(setStr));
+      decoded.add(int.parse(value));
+      set(setKey, jsonEncode(decoded));
+    } catch (err) {
+      debugPrint("add failed / err: $err");
+    }
+  }
+
+  Future<void> remove(String setKey, String value) async {
+    try {
+      String setStr = await get(setKey);
+      if (setStr.isEmpty) {
+        return;
+      }
+
+      List<dynamic> decoded = jsonDecode(setStr);
+      decoded.remove(int.parse(value));
+      set(setKey, jsonEncode(decoded));
+    } catch (err) {
+      debugPrint("add failed / err: $err");
     }
   }
 }

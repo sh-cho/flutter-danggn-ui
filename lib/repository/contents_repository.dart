@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter_danggn_ui/repository/local_storage_repository.dart';
 
 class ContentsRepository extends LocalStorageRepository {
-  // final String FAVORITES_KEY = "FAVORITES";
+  final String FAVORITES_KEY = "FAVORITES";
   final Map<String, dynamic> datas = {
     "ara": [
       {
@@ -179,11 +179,20 @@ class ContentsRepository extends LocalStorageRepository {
     return datas[location] ?? [];
   }
 
-  void addFavorite(Map<String, String> content) {
-    set(content["cid"]!, jsonEncode(content));
+  Future<void> addFavorite(Map<String, String> content) async {
+    await set(content["cid"]!, jsonEncode(content));
+    await add(FAVORITES_KEY, content["cid"]!);
+  }
+
+  Future<void> removeFavorite(Map<String, String> content) async {
+    await remove(FAVORITES_KEY, content["cid"]!);
   }
 
   Future<bool> isFavorite(String cid) async {
     return await get(cid) != "";
   }
+
+// Future<void> debugClean() async {
+//   await storage.deleteAll();
+// }
 }

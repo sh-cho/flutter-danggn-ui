@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dedent/dedent.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_danggn_ui/component/manner_temperature.dart';
 import 'package:flutter_danggn_ui/util.dart';
@@ -70,6 +71,8 @@ class _DetailContentViewState extends State<DetailContentView>
     setState(() {
       _isFavorite = fav;
     });
+
+    // await contentsRepository.debugClean();
   }
 
   @override
@@ -352,8 +355,18 @@ class _DetailContentViewState extends State<DetailContentView>
       child: Row(
         children: [
           GestureDetector(
-            onTap: () {
-              contentsRepository.addFavorite(widget.data);
+            onTap: () async {
+              if (_isFavorite) {
+                await contentsRepository.removeFavorite(widget.data);
+              } else {
+                await contentsRepository.addFavorite(widget.data);
+              }
+
+              if (kDebugMode) {
+                print(await contentsRepository.get("FAVORITES"));
+                print(await contentsRepository.get(cid));
+              }
+
               setState(() {
                 _isFavorite = !_isFavorite;
               });
