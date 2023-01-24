@@ -5,6 +5,8 @@
 
 당근마켓 클론코딩 (https://www.youtube.com/playlist?list=PLgRxBCVPaZ_3R0h7mCkLJ1RKh7XRvoZdF)
 
+https://user-images.githubusercontent.com/11611397/214232065-3655157d-e33f-40de-9f5f-0f31a3b44a95.mov
+
 > **Note**
 >
 > 공부용으로 대충 짰으니 코드는 참고하지 마세요
