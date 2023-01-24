@@ -13,17 +13,17 @@ if (flutterRoot == null) {
 
 def flutterCompileSdkVersion = localProperties.getProperty('flutter.flutterCompileSdkVersion')
 if (flutterCompileSdkVersion == null) {
-    flutterCompileSdkVersion = '31'
+    flutterCompileSdkVersion = '33'
 }
 
 def flutterMinSdkVersion = localProperties.getProperty('flutter.flutterMinSdkVersion')
 if (flutterMinSdkVersion == null) {
-    flutterMinSdkVersion = '16'
+    flutterMinSdkVersion = '18'
 }
 
 def flutterTargetSdkVersion = localProperties.getProperty('flutter.flutterTargetSdkVersion')
 if (flutterTargetSdkVersion == null) {
-    flutterTargetSdkVersion = '31'
+    flutterTargetSdkVersion = '33'
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
